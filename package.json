@@ -1,0 +1,27 @@
+{
+  "name": "secure-ssl-login",
+  "version": "1.0.0",
+  "description": "Implementation of SSL/TLS in a Website - College Micro Project",
+  "main": "server/server.js",
+  "scripts": {
+    "start": "node --experimental-sqlite server/server.js",
+    "dev": "node --experimental-sqlite server/server.js"
+  },
+  "keywords": [
+    "ssl",
+    "tls",
+    "https",
+    "express",
+    "sqlite",
+    "bcrypt"
+  ],
+  "author": "College Micro Project",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "helmet": "^7.1.0",
+    "selfsigned": "^5.5.0"
+  }
+}

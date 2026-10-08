@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard — SecureLogin</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-brand">🔐 SecureLogin</div>
+    <div class="nav-links">
+      <a href="/index.html">Home</a>
+      <a href="/security.html">Security Info</a>
+      <button id="logout-btn" class="btn btn-outline btn-sm">Logout</button>
+    </div>
+  </nav>
+
+  <main class="dashboard-main">
+    <div class="dashboard-card">
+      <div class="dashboard-header">
+        <span class="dash-icon">🛡️</span>
+        <h1>Welcome, <span id="username-display">...</span></h1>
+        <p class="dash-subtitle">You are securely authenticated via HTTPS.</p>
+      </div>
+
+      <div class="status-grid">
+        <div class="status-item status-ok">
+          <span class="status-label">Authentication Status</span>
+          <span class="status-value">✅ Authenticated</span>
+        </div>
+        <div class="status-item status-ok">
+          <span class="status-label">Connection</span>
+          <span class="status-value">🔒 HTTPS / TLS</span>
+        </div>
+        <div class="status-item status-ok">
+          <span class="status-label">Session Status</span>
+          <span class="status-value">✅ Active</span>
+        </div>
+        <div class="status-item">
+          <span class="status-label">User ID</span>
+          <span class="status-value" id="user-id-display">—</span>
+        </div>
+        <div class="status-item">
+          <span class="status-label">Email</span>
+          <span class="status-value" id="email-display">—</span>
+        </div>
+        <div class="status-item status-ok">
+          <span class="status-label">Cookie Security</span>
+          <span class="status-value">HttpOnly | Secure | SameSite</span>
+        </div>
+      </div>
+
+      <div class="dashboard-actions">
+        <a href="/security.html" class="btn btn-primary">Security Information</a>
+        <button id="logout-btn-2" class="btn btn-secondary">Logout</button>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <p>College Micro Project — Implementation of SSL/TLS in a Website</p>
+  </footer>
+
+  <script>
+    // Check authentication on page load
+    async function loadDashboard() {
+      try {
+        const res = await fetch('/api/dashboard', { credentials: 'same-origin' });
+        if (res.status === 401) {
+          window.location.href = '/login.html';
+          return;
+        }
+        const data = await res.json();
+        document.getElementById('username-display').textContent = data.username;
+        document.getElementById('user-id-display').textContent  = '#' + data.userId;
+        document.getElementById('email-display').textContent    = data.email;
+      } catch (err) {
+        window.location.href = '/login.html';
+      }
+    }
+
+    async function logout() {
+      try {
+        await fetch('/api/logout', { method: 'POST', credentials: 'same-origin' });
+      } finally {
+        window.location.href = '/login.html';
+      }
+    }
+
+    document.getElementById('logout-btn').addEventListener('click', logout);
+    document.getElementById('logout-btn-2').addEventListener('click', logout);
+
+    loadDashboard();
+  </script>
+</body>
+</html>

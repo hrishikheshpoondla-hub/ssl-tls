@@ -1,0 +1,20 @@
+node_modules/
+database/*.db
+database/*.sqlite
+
+# TLS private key and certificate - NEVER commit these
+cert/server.key
+cert/server.crt
+cert/*.key
+cert/*.crt
+cert/*.pem
+
+# Environment files
+.env
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log

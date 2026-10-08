@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SecureLogin — SSL/TLS Demo</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-brand">🔐 SecureLogin</div>
+    <div class="nav-links">
+      <a href="/index.html" class="active">Home</a>
+      <a href="/login.html">Login</a>
+      <a href="/register.html">Register</a>
+      <a href="/security.html">Security Info</a>
+    </div>
+  </nav>
+
+  <main class="hero">
+    <div class="hero-content">
+      <div class="hero-badge">College Micro Project</div>
+      <h1>Implementation of <span class="highlight">SSL/TLS</span> in a Website</h1>
+      <p class="hero-subtitle">
+        A practical demonstration of how HTTPS protects data in transit using
+        real TLS encryption, digital certificates, and secure session management.
+      </p>
+
+      <div class="tls-diagram">
+        <div class="diagram-node browser-node">
+          <span class="node-icon">🌐</span>
+          <span class="node-label">Browser</span>
+        </div>
+        <div class="diagram-flow">
+          <div class="flow-arrow">
+            <div class="flow-label tls-label">🔒 TLS Handshake</div>
+            <div class="flow-line"></div>
+          </div>
+        </div>
+        <div class="diagram-node server-node">
+          <span class="node-icon">🖥️</span>
+          <span class="node-label">Node.js Server</span>
+          <span class="port-label">:8443</span>
+        </div>
+        <div class="diagram-flow">
+          <div class="flow-arrow">
+            <div class="flow-label db-label">🔑 bcrypt hash</div>
+            <div class="flow-line"></div>
+          </div>
+        </div>
+        <div class="diagram-node db-node">
+          <span class="node-icon">🗄️</span>
+          <span class="node-label">SQLite DB</span>
+          <span class="port-label">password_hash only</span>
+        </div>
+      </div>
+
+      <div class="feature-grid">
+        <div class="feature-card">
+          <div class="feature-icon">🔐</div>
+          <h3>Real HTTPS/TLS</h3>
+          <p>Server uses Node's built-in HTTPS module with a real TLS certificate — not simulated.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🔄</div>
+          <h3>HTTP → HTTPS Redirect</h3>
+          <p>Port 8080 (HTTP) automatically redirects all traffic to port 8443 (HTTPS).</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🍪</div>
+          <h3>Secure Cookies</h3>
+          <p>Session cookies use <code>HttpOnly</code>, <code>Secure</code>, and <code>SameSite=Strict</code>.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🔑</div>
+          <h3>Password Hashing</h3>
+          <p>bcrypt (12 rounds) hashes passwords before storage. Plaintext is never saved.</p>
+        </div>
+      </div>
+
+      <div class="cta-buttons">
+        <a href="/register.html" class="btn btn-primary">Create Account</a>
+        <a href="/login.html" class="btn btn-secondary">Login</a>
+        <a href="/security.html" class="btn btn-outline">Security Info</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <p>College Micro Project — Implementation of SSL/TLS in a Website &nbsp;|&nbsp;
+       Node.js + Express + SQLite &nbsp;|&nbsp; Port 8443 (HTTPS)
+    </p>
+  </footer>
+</body>
+</html>

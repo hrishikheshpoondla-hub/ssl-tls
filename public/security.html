@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Security Info — SecureLogin</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-brand">🔐 SecureLogin</div>
+    <div class="nav-links">
+      <a href="/index.html">Home</a>
+      <a href="/login.html">Login</a>
+      <a href="/register.html">Register</a>
+      <a href="/security.html" class="active">Security Info</a>
+    </div>
+  </nav>
+
+  <main class="security-main">
+    <!-- ── Server security status ─────────────────────────────────────── -->
+    <section class="section">
+      <h1 class="section-title">🛡️ Security Status</h1>
+      <div class="security-grid" id="security-grid">
+        <div class="sec-item"><span class="sec-label">Connection</span><span class="sec-value" id="s-protocol">Loading…</span></div>
+        <div class="sec-item"><span class="sec-label">TLS</span><span class="sec-value" id="s-tls">Loading…</span></div>
+        <div class="sec-item"><span class="sec-label">Port</span><span class="sec-value" id="s-port">Loading…</span></div>
+        <div class="sec-item"><span class="sec-label">Secure Cookie</span><span class="sec-value" id="s-cookie">Loading…</span></div>
+        <div class="sec-item"><span class="sec-label">HttpOnly</span><span class="sec-value" id="s-httponly">Loading…</span></div>
+        <div class="sec-item"><span class="sec-label">SameSite</span><span class="sec-value" id="s-samesite">Loading…</span></div>
+        <div class="sec-item"><span class="sec-label">Application</span><span class="sec-value" id="s-app">Loading…</span></div>
+        <div class="sec-item"><span class="sec-label">Certificate</span><span class="sec-value" id="s-cert">Loading…</span></div>
+        <div class="sec-item"><span class="sec-label">HSTS</span><span class="sec-value" id="s-hsts">Loading…</span></div>
+        <div class="sec-item"><span class="sec-label">CSP</span><span class="sec-value" id="s-csp">Loading…</span></div>
+      </div>
+    </section>
+
+    <!-- ── TLS Handshake flow ─────────────────────────────────────────── -->
+    <section class="section">
+      <h2 class="section-title">🤝 TLS Handshake Flow</h2>
+      <div class="tls-flow">
+        <div class="flow-step">
+          <div class="flow-step-icon">🌐</div>
+          <div class="flow-step-text">
+            <strong>1. Browser Connects</strong>
+            <p>Browser sends a "ClientHello" to the server at port 8443, listing supported TLS versions and cipher suites.</p>
+          </div>
+        </div>
+        <div class="flow-arrow-down">↓</div>
+        <div class="flow-step">
+          <div class="flow-step-icon">📜</div>
+          <div class="flow-step-text">
+            <strong>2. Server Presents Certificate</strong>
+            <p>Server replies with a "ServerHello" and sends its digital certificate containing its public key.</p>
+          </div>
+        </div>
+        <div class="flow-arrow-down">↓</div>
+        <div class="flow-step">
+          <div class="flow-step-icon">✅</div>
+          <div class="flow-step-text">
+            <strong>3. Certificate Verification</strong>
+            <p>Browser checks if the certificate is trusted. For a self-signed dev certificate, the browser shows a warning (expected in development).</p>
+          </div>
+        </div>
+        <div class="flow-arrow-down">↓</div>
+        <div class="flow-step">
+          <div class="flow-step-icon">🔑</div>
+          <div class="flow-step-text">
+            <strong>4. Session Keys Established</strong>
+            <p>Browser and server negotiate symmetric session keys. These are used to encrypt all subsequent communication.</p>
+          </div>
+        </div>
+        <div class="flow-arrow-down">↓</div>
+        <div class="flow-step">
+          <div class="flow-step-icon">🔒</div>
+          <div class="flow-step-text">
+            <strong>5. Encrypted Connection Active</strong>
+            <p>All application data (login credentials, session cookies, responses) is now transmitted through the TLS-protected channel.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── TLS vs bcrypt demonstration ───────────────────────────────── -->
+    <section class="section">
+      <h2 class="section-title">🔐 How HTTPS Protects Your Data</h2>
+
+      <div class="comparison-grid">
+        <div class="comparison-card bad-card">
+          <h3>🔓 HTTP (Insecure)</h3>
+          <div class="data-flow">
+            <div class="data-node">Browser</div>
+            <div class="data-arrow">
+              <span class="arrow-label danger-label">Plain Text</span>
+              <span class="arrow-line">──────────────────▶</span>
+            </div>
+            <div class="data-node">Server</div>
+          </div>
+          <p class="comparison-note">Anyone monitoring the network can read your password, email, and session cookies.</p>
+        </div>
+
+        <div class="comparison-card good-card">
+          <h3>🔒 HTTPS / TLS (Secure)</h3>
+          <div class="data-flow">
+            <div class="data-node">Browser</div>
+            <div class="data-arrow">
+              <span class="arrow-label safe-label">TLS Encrypted</span>
+              <span class="arrow-line">══════════════════▶</span>
+            </div>
+            <div class="data-node">Server</div>
+          </div>
+          <p class="comparison-note">TLS encrypts the connection. A network interceptor sees only ciphertext — not your credentials.</p>
+        </div>
+      </div>
+
+      <div class="distinction-box">
+        <h3>Important Distinction</h3>
+        <div class="distinction-grid">
+          <div class="distinction-item">
+            <span class="distinction-icon">🔒</span>
+            <strong>TLS</strong>
+            <p>Protects data <em>during network transmission</em> between browser and server.</p>
+          </div>
+          <div class="distinction-item">
+            <span class="distinction-icon">🔑</span>
+            <strong>bcrypt</strong>
+            <p>Protects passwords <em>at rest in the database</em>. Plaintext password is never stored.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Cookie security attributes ────────────────────────────────── -->
+    <section class="section">
+      <h2 class="section-title">🍪 Cookie Security Attributes</h2>
+      <div class="attr-list">
+        <div class="attr-item">
+          <code class="attr-name">HttpOnly</code>
+          <p>Prevents JavaScript from accessing the cookie via <code>document.cookie</code>. Mitigates XSS attacks.</p>
+        </div>
+        <div class="attr-item">
+          <code class="attr-name">Secure</code>
+          <p>Cookie is only transmitted over HTTPS connections, never over plain HTTP.</p>
+        </div>
+        <div class="attr-item">
+          <code class="attr-name">SameSite=Strict</code>
+          <p>Cookie is not sent with cross-site requests. Mitigates CSRF attacks.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Security headers ───────────────────────────────────────────── -->
+    <section class="section">
+      <h2 class="section-title">🛡️ Security Headers</h2>
+      <div class="attr-list">
+        <div class="attr-item">
+          <code class="attr-name">Strict-Transport-Security</code>
+          <p>Tells browsers to only connect via HTTPS for the next year. Prevents downgrade attacks.</p>
+        </div>
+        <div class="attr-item">
+          <code class="attr-name">Content-Security-Policy</code>
+          <p>Restricts the sources from which the browser loads scripts, styles, and other resources. Mitigates XSS.</p>
+        </div>
+        <div class="attr-item">
+          <code class="attr-name">X-Content-Type-Options: nosniff</code>
+          <p>Prevents browsers from MIME-sniffing a response away from the declared content type.</p>
+        </div>
+        <div class="attr-item">
+          <code class="attr-name">Referrer-Policy</code>
+          <p>Controls how much referrer information is included with requests. Set to strict-origin-when-cross-origin.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Dev cert disclaimer ─────────────────────────────────────────── -->
+    <section class="section disclaimer-section">
+      <h2 class="section-title">⚠️ Development Certificate Notice</h2>
+      <p>
+        This project uses a <strong>self-signed certificate</strong> generated locally for development and testing.
+        Self-signed certificates are <strong>not trusted by browsers by default</strong>, which is why you see a
+        security warning when visiting this site. This is expected and normal in a development environment.
+      </p>
+      <p>
+        In a real production website, the certificate would be issued by a trusted
+        <strong>Certificate Authority (CA)</strong> such as Let's Encrypt, DigiCert, or Comodo.
+        The CA verifies the domain owner's identity before issuing the certificate, which causes browsers to trust it automatically.
+      </p>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>College Micro Project — Implementation of SSL/TLS in a Website</p>
+  </footer>
+
+  <script>
+    fetch('/api/security-info', { credentials: 'same-origin' })
+      .then(r => r.json())
+      .then(d => {
+        document.getElementById('s-protocol').textContent  = '🔒 ' + d.protocol;
+        document.getElementById('s-tls').textContent      = '✅ ' + d.tls;
+        document.getElementById('s-port').textContent     = d.port;
+        document.getElementById('s-cookie').textContent   = '✅ ' + d.secureCookie;
+        document.getElementById('s-httponly').textContent = '✅ ' + d.httpOnly;
+        document.getElementById('s-samesite').textContent = d.sameSite;
+        document.getElementById('s-app').textContent      = d.application;
+        document.getElementById('s-cert').textContent     = '⚠️ ' + d.certificate;
+        document.getElementById('s-hsts').textContent     = '✅ ' + d.hsts;
+        document.getElementById('s-csp').textContent      = '✅ ' + d.csp;
+      })
+      .catch(() => {
+        document.getElementById('s-protocol').textContent = 'Could not load security info';
+      });
+  </script>
+</body>
+</html>
